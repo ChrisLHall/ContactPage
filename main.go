@@ -1,7 +1,6 @@
 package main
 
 import (
-    "bytes"
     "fmt"
     "net/http"
     "net/smtp"
@@ -26,8 +25,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
         return
     }
     defer wc.Close()
-    buf := bytes.NewBufferString("Test notification e-mail.")
-    if _, err = buf.WriteTo(wc); err != nil {
+    if err = r.Write(wc); err != nil {
         fmt.Fprintf(w, "Oh dear 3 - %s", err)
         return
     }
